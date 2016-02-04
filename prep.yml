@@ -67,6 +67,7 @@
       name: openshift_use_nfs
       state: yes
       persistent: yes
+    when: "'nodes' in group_names"
 
   # https://docs.openshift.com/enterprise/3.1/admin_guide/overcommit.html#disable-swap-memory
   - name: Remove swaps from fstab
@@ -75,12 +76,14 @@
       regexp: '^/[\S]+\s+swap\s+swap'
       state: absent
     notify: disable swap
+    when: "'nodes' in group_names"
 
   - name: Setup docker storage config
     copy:
       content: "{{ docker_storage_setup }}"
       dest: /etc/sysconfig/docker-storage-setup
     notify: docker storage setup
+    when: "'nodes' in group_names"
 
 
   handlers:
