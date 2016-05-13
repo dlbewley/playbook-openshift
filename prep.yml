@@ -35,6 +35,7 @@
       - git
       - iptables-services
       - net-tools
+      - ntp
       - openssh-clients
       - python
       - python-virtualenv
@@ -51,6 +52,12 @@
       - tmux
       - vim-enhanced
     when: "'masters' in group_names"
+
+  - name: Enable NTPd
+    service:
+      name: ntpd
+      enabled: yes
+      state: started
 
   - name: Make journald logs persistent to assist troubleshooting
     file:
